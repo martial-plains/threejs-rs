@@ -1,0 +1,196 @@
+use serde_json::{json, Value};
+
+pub const REVISION: &str = "151";
+
+pub const CULL_FACE_NONE: i32 = 0;
+pub const CULL_FACE_BACK: i32 = 1;
+pub const CULL_FACE_FRONT: i32 = 2;
+pub const CULL_FACE_FRONT_BACK: i32 = 3;
+pub const BASIC_SHADOW_MAP: i32 = 0;
+pub const PCF_SHADOW_MAP: i32 = 1;
+pub const PCF_SOFT_SHADOW_MAP: i32 = 2;
+pub const VSM_SHADOW_MAP: i32 = 3;
+pub const FRONT_SIDE: i32 = 0;
+pub const BACK_SIDE: i32 = 1;
+pub const DOUBLE_SIDE: i32 = 2;
+pub const TWO_PASS_DOUBLE_SIDE: i32 = 2;
+pub const NO_BLENDING: i32 = 0;
+pub const NORMAL_BLENDING: i32 = 1;
+pub const ADDITIVE_BLENDING: i32 = 2;
+pub const SUBTRACTIVE_BLENDING: i32 = 3;
+pub const MULTIPLY_BLENDING: i32 = 4;
+pub const CUSTOM_BLENDING: i32 = 5;
+pub const ADD_EQUATION: i32 = 100;
+pub const SUBTRACT_EQUATION: i32 = 101;
+pub const REVERSE_SUBTRACT_EQUATION: i32 = 102;
+pub const MIN_EQUATION: i32 = 103;
+pub const MAX_EQUATION: i32 = 104;
+pub const ZERO_FACTOR: i32 = 200;
+pub const ONE_FACTOR: i32 = 201;
+pub const SRC_COLOR_FACTOR: i32 = 202;
+pub const ONE_MINUS_SRC_COLOR_FACTOR: i32 = 203;
+pub const SRC_ALPHA_FACTOR: i32 = 204;
+pub const ONE_MINUS_SRC_ALPHA_FACTOR: i32 = 205;
+pub const DST_ALPHA_FACTOR: i32 = 206;
+pub const ONE_MINUS_DST_ALPHA_FACTOR: i32 = 207;
+pub const DST_COLOR_FACTOR: i32 = 208;
+pub const ONE_MINUS_DST_COLOR_FACTOR: i32 = 209;
+pub const SRC_ALPHA_SATURATE_FACTOR: i32 = 210;
+pub const NEVER_DEPTH: i32 = 0;
+pub const ALWAYS_DEPTH: i32 = 1;
+pub const LESS_DEPTH: i32 = 2;
+pub const LESS_EQUAL_DEPTH: i32 = 3;
+pub const EQUAL_DEPTH: i32 = 4;
+pub const GREATER_EQUAL_DEPTH: i32 = 5;
+pub const GREATER_DEPTH: i32 = 6;
+pub const NOT_EQUAL_DEPTH: i32 = 7;
+pub const MULTIPLY_OPERATION: i32 = 0;
+pub const MIX_OPERATION: i32 = 1;
+pub const ADD_OPERATION: i32 = 2;
+pub const NO_TONE_MAPPING: i32 = 0;
+pub const LINEAR_TONE_MAPPING: i32 = 1;
+pub const REINHARD_TONE_MAPPING: i32 = 2;
+pub const CINEON_TONE_MAPPING: i32 = 3;
+pub const ACESFILMIC_TONE_MAPPING: i32 = 4;
+pub const CUSTOM_TONE_MAPPING: i32 = 5;
+
+pub const UV_MAPPING: i32 = 300;
+pub const CUBE_REFLECTION_MAPPING: i32 = 301;
+pub const CUBE_REFRACTION_MAPPING: i32 = 302;
+pub const EQUIRECTANGULAR_REFLECTION_MAPPING: i32 = 303;
+pub const EQUIRECTANGULAR_REFRACTION_MAPPING: i32 = 304;
+pub const CUBE_UVREFLECTION_MAPPING: i32 = 306;
+pub const REPEAT_WRAPPING: i32 = 1000;
+pub const CLAMP_TO_EDGE_WRAPPING: i32 = 1001;
+pub const MIRRORED_REPEAT_WRAPPING: i32 = 1002;
+pub const NEAREST_FILTER: i32 = 1003;
+pub const NEAREST_MIPMAP_NEAREST_FILTER: i32 = 1004;
+pub const NEAREST_MIP_MAP_NEAREST_FILTER: i32 = 1004;
+pub const NEAREST_MIPMAP_LINEAR_FILTER: i32 = 1005;
+pub const NEAREST_MIP_MAP_LINEAR_FILTER: i32 = 1005;
+pub const LINEAR_FILTER: i32 = 1006;
+pub const LINEAR_MIPMAP_NEAREST_FILTER: i32 = 1007;
+pub const LINEAR_MIP_MAP_NEAREST_FILTER: i32 = 1007;
+pub const LINEAR_MIPMAP_LINEAR_FILTER: i32 = 1008;
+pub const LINEAR_MIP_MAP_LINEAR_FILTER: i32 = 1008;
+pub const UNSIGNED_BYTE_TYPE: i32 = 1009;
+pub const BYTE_TYPE: i32 = 1010;
+pub const SHORT_TYPE: i32 = 1011;
+pub const UNSIGNED_SHORT_TYPE: i32 = 1012;
+pub const INT_TYPE: i32 = 1013;
+pub const UNSIGNED_INT_TYPE: i32 = 1014;
+pub const FLOAT_TYPE: i32 = 1015;
+pub const HALF_FLOAT_TYPE: i32 = 1016;
+pub const UNSIGNED_SHORT4444_TYPE: i32 = 1017;
+pub const UNSIGNED_SHORT5551_TYPE: i32 = 1018;
+pub const UNSIGNED_INT248_TYPE: i32 = 1020;
+pub const ALPHA_FORMAT: i32 = 1021;
+pub const RGBA_FORMAT: i32 = 1023;
+pub const LUMINANCE_FORMAT: i32 = 1024;
+pub const LUMINANCE_ALPHA_FORMAT: i32 = 1025;
+pub const DEPTH_FORMAT: i32 = 1026;
+pub const DEPTH_STENCIL_FORMAT: i32 = 1027;
+pub const RED_FORMAT: i32 = 1028;
+pub const RED_INTEGER_FORMAT: i32 = 1029;
+pub const RG_FORMAT: i32 = 1030;
+pub const RG_INTEGER_FORMAT: i32 = 1031;
+pub const RGBA_INTEGER_FORMAT: i32 = 1033;
+
+pub const RGB_S3_TC_DXT1_FORMAT: i32 = 33776;
+pub const RGBA_S3_TC_DXT1_FORMAT: i32 = 33777;
+pub const RGBA_S3_TC_DXT3_FORMAT: i32 = 33778;
+pub const RGBA_S3_TC_DXT5_FORMAT: i32 = 33779;
+pub const RGB_PVRTC_4_BPPV1_FORMAT: i32 = 35840;
+pub const RGB_PVRTC_2_BPPV1_FORMAT: i32 = 35841;
+pub const RGBA_PVRTC_4_BPPV1_FORMAT: i32 = 35842;
+pub const RGBA_PVRTC_2_BPPV1_FORMAT: i32 = 35843;
+pub const RGB_ETC1_FORMAT: i32 = 36196;
+pub const RGB_ETC2_FORMAT: i32 = 37492;
+pub const RGBA_ETC2_EAC_FORMAT: i32 = 37496;
+pub const RGBA_ASTC_4X4_FORMAT: i32 = 37808;
+pub const RGBA_ASTC_5X4_FORMAT: i32 = 37809;
+pub const RGBA_ASTC_5X5_FORMAT: i32 = 37810;
+pub const RGBA_ASTC_6X5_FORMAT: i32 = 37811;
+pub const RGBA_ASTC_6X6_FORMAT: i32 = 37812;
+pub const RGBA_ASTC_8X5_FORMAT: i32 = 37813;
+pub const RGBA_ASTC_8X6_FORMAT: i32 = 37814;
+pub const RGBA_ASTC_8X8_FORMAT: i32 = 37815;
+pub const RGBA_ASTC_10X5_FORMAT: i32 = 37816;
+pub const RGBA_ASTC_10X6_FORMAT: i32 = 37817;
+pub const RGBA_ASTC_10X8_FORMAT: i32 = 37818;
+pub const RGBA_ASTC_10X10_FORMAT: i32 = 37819;
+pub const RGBA_ASTC_12X10_FORMAT: i32 = 37820;
+pub const RGBA_ASTC_12X12_FORMAT: i32 = 37821;
+pub const RGBA_BPTC_FORMAT: i32 = 36492;
+pub const RED_RGTC1_FORMAT: i32 = 36283;
+pub const SIGNED_RED_RGTC1_FORMAT: i32 = 36284;
+pub const RED_GREEN_RGTC2_FORMAT: i32 = 36285;
+pub const SIGNED_RED_GREEN_RGTC2_FORMAT: i32 = 36286;
+pub const LOOP_ONCE: i32 = 2200;
+pub const LOOP_REPEAT: i32 = 2201;
+pub const LOOP_PING_PONG: i32 = 2202;
+pub const INTERPOLATE_DISCRETE: i32 = 2300;
+pub const INTERPOLATE_LINEAR: i32 = 2301;
+pub const INTERPOLATE_SMOOTH: i32 = 2302;
+pub const ZERO_CURVATURE_ENDING: i32 = 2400;
+pub const ZERO_SLOPE_ENDING: i32 = 2401;
+pub const WRAP_AROUND_ENDING: i32 = 2402;
+pub const NORMAL_ANIMATION_BLEND_MODE: i32 = 2500;
+pub const ADDITIVE_ANIMATION_BLEND_MODE: i32 = 2501;
+pub const TRIANGLES_DRAW_MODE: i32 = 0;
+pub const TRIANGLE_STRIP_DRAW_MODE: i32 = 1;
+pub const TRIANGLE_FAN_DRAW_MODE: i32 = 2;
+pub const LINEAR_ENCODING: i32 = 3000;
+pub const SRGB_ENCODING: i32 = 3001;
+pub const BASIC_DEPTH_PACKING: i32 = 3200;
+pub const RGBA_DEPTH_PACKING: i32 = 3201;
+pub const TANGENT_SPACE_NORMAL_MAP: i32 = 0;
+pub const OBJECT_SPACE_NORMAL_MAP: i32 = 1;
+
+pub const NO_COLOR_SPACE: &str = "";
+pub const SRGB_COLOR_SPACE: &str = "srgb";
+pub const LINEAR_SRGB_COLOR_SPACE: &str = "srgb-linear";
+pub const DISPLAY_P3_COLOR_SPACE: &str = "display-p3";
+
+pub const ZERO_STENCIL_OP: i32 = 0;
+pub const KEEP_STENCIL_OP: i32 = 7680;
+pub const REPLACE_STENCIL_OP: i32 = 7681;
+pub const INCREMENT_STENCIL_OP: i32 = 7682;
+pub const DECREMENT_STENCIL_OP: i32 = 7683;
+pub const INCREMENT_WRAP_STENCIL_OP: i32 = 34055;
+pub const DECREMENT_WRAP_STENCIL_OP: i32 = 34056;
+pub const INVERT_STENCIL_OP: i32 = 5386;
+
+pub const NEVER_STENCIL_FUNC: i32 = 512;
+pub const LESS_STENCIL_FUNC: i32 = 513;
+pub const EQUAL_STENCIL_FUNC: i32 = 514;
+pub const LESS_EQUAL_STENCIL_FUNC: i32 = 515;
+pub const GREATER_STENCIL_FUNC: i32 = 516;
+pub const NOT_EQUAL_STENCIL_FUNC: i32 = 517;
+pub const GREATER_EQUAL_STENCIL_FUNC: i32 = 518;
+pub const ALWAYS_STENCIL_FUNC: i32 = 519;
+
+pub const STATIC_DRAW_USAGE: i32 = 35044;
+pub const DYNAMIC_DRAW_USAGE: i32 = 35048;
+pub const STREAM_DRAW_USAGE: i32 = 35040;
+pub const STATIC_READ_USAGE: i32 = 35045;
+pub const DYNAMIC_READ_USAGE: i32 = 35049;
+pub const STREAM_READ_USAGE: i32 = 35041;
+pub const STATIC_COPY_USAGE: i32 = 35046;
+pub const DYNAMIC_COPY_USAGE: i32 = 35050;
+pub const STREAM_COPY_USAGE: i32 = 35042;
+
+pub const GLSL1: &str = "100";
+pub const GLSL3: &str = "300 es";
+
+pub const _SRGBAFORMAT: i32 = 1035;
+
+#[must_use]
+pub fn mouse() -> Value {
+    json!({ "LEFT": 0, "MIDDLE": 1, "RIGHT": 2, "ROTATE": 0, "DOLLY": 1, "PAN": 2 })
+}
+
+#[must_use]
+pub fn touch() -> Value {
+    json!({ "ROTATE": 0, "PAN": 1, "DOLLY_PAN": 2, "DOLLY_ROTATE": 3 })
+}
