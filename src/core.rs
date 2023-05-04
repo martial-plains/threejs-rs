@@ -1,6 +1,10 @@
+use js_sys::{Array, Function, Object};
 use wasm_bindgen::prelude::*;
 
-use crate::math::{Euler, Vector3};
+use crate::{
+    math::{Euler, Vector3},
+    Matrix4, Quaternion,
+};
 
 #[wasm_bindgen(module = "/node_modules/three/build/three.module.js")]
 extern "C" {
@@ -21,9 +25,9 @@ extern "C" {
     #[wasm_bindgen(method, js_name = "copyAt")]
     pub fn copy_at(
         this: &InterleavedBuffer,
-        index1: &JsValue,
-        attribute: &JsValue,
-        index2: &JsValue,
+        index1: i32,
+        attribute: &InterleavedBuffer,
+        index2: i32,
     ) -> InterleavedBuffer;
 
     #[wasm_bindgen(method)]
@@ -41,65 +45,65 @@ extern "C" {
     pub fn new() -> BufferGeometry;
 
     #[wasm_bindgen(method, js_name = "getIndex")]
-    pub fn get_index(this: &BufferGeometry) -> JsValue;
+    pub fn get_index(this: &BufferGeometry) -> BufferAttribute;
 
     #[wasm_bindgen(method, js_name = "setIndex")]
-    pub fn set_index(this: &BufferGeometry, index: &JsValue) -> BufferGeometry;
+    pub fn set_index(this: &BufferGeometry, index: &BufferAttribute) -> BufferGeometry;
 
     #[wasm_bindgen(method, js_name = "getAttribute")]
-    pub fn get_attribute(this: &BufferGeometry, name: &JsValue) -> JsValue;
+    pub fn get_attribute(this: &BufferGeometry, name: &str) -> BufferAttribute;
 
     #[wasm_bindgen(method, js_name = "setAttribute")]
     pub fn set_attribute(
         this: &BufferGeometry,
-        name: &JsValue,
-        attribute: &JsValue,
+        name: &str,
+        attribute: &BufferAttribute,
     ) -> BufferGeometry;
 
     #[wasm_bindgen(method, js_name = "deleteAttribute")]
-    pub fn delete_attribute(this: &BufferGeometry, name: &JsValue) -> BufferGeometry;
+    pub fn delete_attribute(this: &BufferGeometry, name: &str) -> BufferAttribute;
 
     #[wasm_bindgen(method, js_name = "hasAttribute")]
-    pub fn has_attribute(this: &BufferGeometry, name: &JsValue) -> bool;
+    pub fn has_attribute(this: &BufferGeometry, name: &str) -> bool;
 
     #[wasm_bindgen(method, js_name = "addGroup")]
-    pub fn add_group(this: &BufferGeometry, start: &JsValue, count: &JsValue, material_index: i32);
+    pub fn add_group(this: &BufferGeometry, start: i32, count: i32, material_index: i32);
 
     #[wasm_bindgen(method, js_name = "clearGroups")]
     pub fn clear_groups(this: &BufferGeometry);
 
     #[wasm_bindgen(method, js_name = "setDrawRange")]
-    pub fn set_draw_range(this: &BufferGeometry, start: &JsValue, count: &JsValue);
+    pub fn set_draw_range(this: &BufferGeometry, start: i32, count: i32);
 
     #[wasm_bindgen(method, js_name = "applyMatrix4")]
-    pub fn apply_matrix_4(this: &BufferGeometry, matrix: &JsValue) -> JsValue;
+    pub fn apply_matrix4(this: &BufferGeometry, matrix: &Matrix4) -> BufferGeometry;
 
     #[wasm_bindgen(method, js_name = "applyQuaternion")]
-    pub fn apply_quaternion(this: &BufferGeometry, q: &JsValue) -> BufferGeometry;
+    pub fn apply_quaternion(this: &BufferGeometry, q: &Quaternion) -> BufferGeometry;
 
     #[wasm_bindgen(method, js_name = "rotateX")]
-    pub fn rotate_x(this: &BufferGeometry, angle: f64) -> BufferGeometry;
+    pub fn rotate_x(this: &BufferGeometry, angle: f32) -> BufferGeometry;
 
     #[wasm_bindgen(method, js_name = "rotateY")]
-    pub fn rotate_y(this: &BufferGeometry, angle: f64) -> BufferGeometry;
+    pub fn rotate_y(this: &BufferGeometry, angle: f32) -> BufferGeometry;
 
     #[wasm_bindgen(method, js_name = "rotateZ")]
-    pub fn rotate_z(this: &BufferGeometry, angle: f64) -> BufferGeometry;
+    pub fn rotate_z(this: &BufferGeometry, angle: f32) -> BufferGeometry;
 
     #[wasm_bindgen(method)]
-    pub fn translate(this: &BufferGeometry, x: f64, y: f64, z: f64) -> BufferGeometry;
+    pub fn translate(this: &BufferGeometry, x: f32, y: f32, z: f32) -> BufferGeometry;
 
     #[wasm_bindgen(method)]
-    pub fn scale(this: &BufferGeometry, x: f64, y: f64, z: f64) -> BufferGeometry;
+    pub fn scale(this: &BufferGeometry, x: f32, y: f32, z: f32) -> BufferGeometry;
 
     #[wasm_bindgen(method, js_name = "lookAt")]
-    pub fn look_at(this: &BufferGeometry, vector: &JsValue) -> BufferGeometry;
+    pub fn look_at(this: &BufferGeometry, vector: &Vector3) -> BufferGeometry;
 
     #[wasm_bindgen(method)]
     pub fn center(this: &BufferGeometry) -> BufferGeometry;
 
     #[wasm_bindgen(method, js_name = "setFromPoints")]
-    pub fn set_from_points(this: &BufferGeometry, points: &JsValue) -> BufferGeometry;
+    pub fn set_from_points(this: &BufferGeometry, points: &Array) -> BufferGeometry;
 
     #[wasm_bindgen(method, js_name = "computeBoundingBox")]
     pub fn compute_bounding_box(this: &BufferGeometry);
@@ -146,113 +150,109 @@ extern "C" {
     pub fn on_after_render(this: &Object3D);
 
     #[wasm_bindgen(method, js_name = "applyMatrix4")]
-    pub fn apply_matrix_4(this: &Object3D, matrix: &JsValue);
+    pub fn apply_matrix_4(this: &Object3D, matrix: &Matrix4);
 
     #[wasm_bindgen(method, js_name = "applyQuaternion")]
-    pub fn apply_quaternion(this: &Object3D, q: &JsValue) -> Object3D;
+    pub fn apply_quaternion(this: &Object3D, q: &Quaternion) -> Object3D;
 
     #[wasm_bindgen(method, js_name = "setRotationFromAxisAngle")]
-    pub fn set_rotation_from_axis_angle(this: &Object3D, axis: &JsValue, angle: &JsValue);
+    pub fn set_rotation_from_axis_angle(this: &Object3D, axis: &Vector3, angle: f32);
 
     #[wasm_bindgen(method, js_name = "setRotationFromEuler")]
-    pub fn set_rotation_from_euler(this: &Object3D, axis: &Euler);
+    pub fn set_rotation_from_euler(this: &Object3D, euler: &Euler);
 
     #[wasm_bindgen(method, js_name = "setRotationFromMatrix")]
-    pub fn set_rotation_from_matrix(this: &Object3D, m: &JsValue);
+    pub fn set_rotation_from_matrix(this: &Object3D, m: &Matrix4);
 
     #[wasm_bindgen(method, js_name = "setRotationFromQuaternion")]
-    pub fn set_rotation_from_quaternion(this: &Object3D, q: &JsValue);
+    pub fn set_rotation_from_quaternion(this: &Object3D, q: &Quaternion);
 
     #[wasm_bindgen(method, js_name = "rotateOnAxis")]
-    pub fn rotate_on_axis(this: &Object3D, axis: &JsValue, angle: &JsValue) -> Object3D;
+    pub fn rotate_on_axis(this: &Object3D, axis: &Vector3, angle: f32) -> Object3D;
 
     #[wasm_bindgen(method, js_name = "rotateOnWorldAxis")]
-    pub fn rotate_on_world_axis(this: &Object3D, axis: &JsValue, angle: &JsValue) -> Object3D;
+    pub fn rotate_on_world_axis(this: &Object3D, axis: &Vector3, angle: f32) -> Object3D;
 
     #[wasm_bindgen(method, js_name = "rotateX")]
-    pub fn rotate_x(this: &Object3D, angle: &JsValue) -> Object3D;
+    pub fn rotate_x(this: &Object3D, angle: f32) -> Object3D;
 
     #[wasm_bindgen(method, js_name = "rotateY")]
-    pub fn rotate_y(this: &Object3D, angle: &JsValue) -> Object3D;
+    pub fn rotate_y(this: &Object3D, angle: f32) -> Object3D;
 
     #[wasm_bindgen(method, js_name = "rotateZ")]
-    pub fn rotate_z(this: &Object3D, angle: &JsValue) -> Object3D;
+    pub fn rotate_z(this: &Object3D, angle: f32) -> Object3D;
 
     #[wasm_bindgen(method, js_name = "translateOnAxis")]
-    pub fn translate_on_axis(this: &Object3D, axis: &JsValue, distance: &JsValue) -> Object3D;
+    pub fn translate_on_axis(this: &Object3D, axis: &Vector3, distance: f32) -> Object3D;
 
     #[wasm_bindgen(method, js_name = "translateX")]
-    pub fn translate_x(this: &Object3D, distance: &JsValue) -> Object3D;
+    pub fn translate_x(this: &Object3D, distance: f32) -> Object3D;
 
     #[wasm_bindgen(method, js_name = "translateY")]
-    pub fn translate_y(this: &Object3D, distance: &JsValue) -> Object3D;
+    pub fn translate_y(this: &Object3D, distance: f32) -> Object3D;
 
     #[wasm_bindgen(method, js_name = "translateZ")]
-    pub fn translate_z(this: &Object3D, distance: &JsValue) -> Object3D;
+    pub fn translate_z(this: &Object3D, distance: f32) -> Object3D;
 
     #[wasm_bindgen(method, js_name = "localToWorld")]
-    pub fn local_to_world(this: &Object3D, vector: &JsValue) -> JsValue;
+    pub fn local_to_world(this: &Object3D, vector: &Vector3) -> Vector3;
 
     #[wasm_bindgen(method, js_name = "worldToLocal")]
-    pub fn world_to_local(this: &Object3D, vector: &JsValue) -> JsValue;
+    pub fn world_to_local(this: &Object3D, vector: &Vector3) -> Vector3;
 
     #[wasm_bindgen(method, js_name = "lookAt")]
-    pub fn look_at(this: &Object3D, x: &JsValue, y: &JsValue, z: &JsValue);
+    pub fn look_at(this: &Object3D, x: f32, y: f32, z: f32);
 
     #[wasm_bindgen(method)]
-    pub fn add(this: &Object3D, object: &JsValue) -> Object3D;
+    pub fn add(this: &Object3D, object: &Object3D) -> Object3D;
 
     #[wasm_bindgen(method)]
-    pub fn remove(this: &Object3D, object: &JsValue) -> Object3D;
+    pub fn remove(this: &Object3D, object: &Object3D) -> Object3D;
 
     #[wasm_bindgen(method, js_name = "removeFromParent")]
-    pub fn remove_from_parent(this: &Object3D, object: &JsValue) -> Object3D;
+    pub fn remove_from_parent(this: &Object3D, object: &Object3D) -> Object3D;
 
     #[wasm_bindgen(method)]
     pub fn clear(this: &Object3D) -> Object3D;
 
     #[wasm_bindgen(method)]
-    pub fn attach(this: &Object3D, object: &JsValue) -> Object3D;
+    pub fn attach(this: &Object3D, object: &Object3D) -> Object3D;
 
     #[wasm_bindgen(method, js_name = "getObjectById")]
-    pub fn get_object_by_id(this: &Object3D, id: &JsValue) -> JsValue;
+    pub fn get_object_by_id(this: &Object3D, id: i32) -> JsValue;
 
     #[wasm_bindgen(method, js_name = "getObjectByName")]
-    pub fn get_object_by_name(this: &Object3D, name: &JsValue) -> JsValue;
+    pub fn get_object_by_name(this: &Object3D, name: &str) -> JsValue;
 
     #[wasm_bindgen(method, js_name = "getObjectByProperty")]
-    pub fn get_object_by_property(this: &Object3D, name: &JsValue, value: &JsValue) -> JsValue;
+    pub fn get_object_by_property(this: &Object3D, name: &str, value: &JsValue) -> JsValue;
 
     #[wasm_bindgen(method, js_name = "getObjectByProperty")]
-    pub fn get_objects_by_property(
-        this: &Object3D,
-        name: &JsValue,
-        value: &JsValue,
-    ) -> Vec<JsValue>;
+    pub fn get_objects_by_property(this: &Object3D, name: &str, value: &JsValue) -> Vec<JsValue>;
 
     #[wasm_bindgen(method, js_name = "getWorldPosition")]
-    pub fn get_world_position(this: &Object3D, target: &JsValue) -> JsValue;
+    pub fn get_world_position(this: &Object3D, target: &Vector3) -> Vector3;
 
     #[wasm_bindgen(method, js_name = "getWorldQuaternion")]
-    pub fn get_world_quaternion(this: &Object3D, target: &JsValue) -> JsValue;
+    pub fn get_world_quaternion(this: &Object3D, target: &Quaternion) -> Quaternion;
 
     #[wasm_bindgen(method, js_name = "getWorldScale")]
-    pub fn get_world_scale(this: &Object3D, target: &JsValue) -> JsValue;
+    pub fn get_world_scale(this: &Object3D, target: &Vector3) -> Vector3;
 
     #[wasm_bindgen(method, js_name = "getWorldDirection")]
-    pub fn get_world_direction(this: &Object3D, target: &JsValue) -> JsValue;
+    pub fn get_world_direction(this: &Object3D, target: &Vector3) -> Vector3;
 
     #[wasm_bindgen(method)]
     pub fn raycast(this: &Object3D);
 
     #[wasm_bindgen(method)]
-    pub fn traverse(this: &Object3D, callback: &JsValue);
+    pub fn traverse(this: &Object3D, callback: &Function);
 
     #[wasm_bindgen(method, js_name = "traverseVisible")]
-    pub fn traverse_visible(this: &Object3D, callback: &JsValue);
+    pub fn traverse_visible(this: &Object3D, callback: &Function);
 
     #[wasm_bindgen(method, js_name = "traverseAncestors")]
-    pub fn traverse_ancestors(this: &Object3D, callback: &JsValue);
+    pub fn traverse_ancestors(this: &Object3D, callback: &Function);
 
     #[wasm_bindgen(method, js_name = "updateMatrix")]
     pub fn update_matrix(this: &Object3D);
@@ -269,7 +269,7 @@ extern "C" {
     pub type Uniform;
 
     #[wasm_bindgen(constructor)]
-    pub fn new(value: &JsValue) -> Uniform;
+    pub fn new(value: &Object) -> Uniform;
 
 }
 

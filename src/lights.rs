@@ -1,6 +1,7 @@
+use js_sys::{Number, Object};
 use wasm_bindgen::prelude::*;
 
-use crate::{core::Object3D, math::SphericalHarmonics3};
+use crate::{core::Object3D, math::SphericalHarmonics3, Color};
 
 #[wasm_bindgen(module = "/node_modules/three/build/three.module.js")]
 extern "C" {
@@ -8,10 +9,10 @@ extern "C" {
     pub type Light;
 
     #[wasm_bindgen(constructor)]
-    pub fn new(color: &JsValue, intensity: i32) -> Light;
+    pub fn new(color: i32, intensity: f32) -> Light;
 
     #[wasm_bindgen(method, js_name = "toJSON")]
-    pub fn to_json(this: &Light, meta: &JsValue) -> JsValue;
+    pub fn to_json(this: &Light, meta: &Object) -> JsValue;
 
 }
 
@@ -22,19 +23,19 @@ extern "C" {
 
     #[wasm_bindgen(constructor)]
     pub fn new(
-        color: &JsValue,
-        intensity: i32,
-        distance: i32,
-        angle: f64,
-        penumbra: i32,
-        decay: i32,
+        color: i32,
+        intensity: f32,
+        distance: f32,
+        angle: f32,
+        penumbra: f32,
+        decay: f32,
     ) -> Spotlight;
 
     #[wasm_bindgen(method, getter)]
-    pub fn power(this: &Spotlight) -> f64;
+    pub fn power(this: &Spotlight) -> f32;
 
     #[wasm_bindgen(method, setter)]
-    pub fn set_power(this: &Spotlight, power: f64);
+    pub fn set_power(this: &Spotlight, power: f32);
 
 }
 
@@ -44,13 +45,13 @@ extern "C" {
     pub type PointLight;
 
     #[wasm_bindgen(constructor)]
-    pub fn new(color: &JsValue, intensity: i32, distance: i32, decay: i32) -> PointLight;
+    pub fn new(color: i32, intensity: f32, distance: Number, decay: f32) -> PointLight;
 
     #[wasm_bindgen(method, getter)]
-    pub fn power(this: &PointLight) -> f64;
+    pub fn power(this: &PointLight) -> f32;
 
     #[wasm_bindgen(method, setter)]
-    pub fn set_power(this: &PointLight, power: f64);
+    pub fn set_power(this: &PointLight, power: f32);
 
 }
 
@@ -60,7 +61,7 @@ extern "C" {
     pub type RectAreaLight;
 
     #[wasm_bindgen(constructor)]
-    pub fn new(color: &JsValue, intensity: i32, width: i32, height: i32) -> RectAreaLight;
+    pub fn new(color: i32, intensity: f32, width: f32, height: f32) -> RectAreaLight;
 
     #[wasm_bindgen(method, getter)]
     pub fn power(this: &RectAreaLight) -> f64;
@@ -79,7 +80,7 @@ extern "C" {
     pub type HemisphereLight;
 
     #[wasm_bindgen(constructor)]
-    pub fn new(skyColor: &JsValue, groundColor: &JsValue, intensity: i32) -> HemisphereLight;
+    pub fn new(skyColor: i32, groundColor: i32, intensity: f32) -> HemisphereLight;
 
 }
 
@@ -89,7 +90,7 @@ extern "C" {
     pub type LightProbe;
 
     #[wasm_bindgen(constructor)]
-    pub fn new(sh: &SphericalHarmonics3, intensity: i32) -> LightProbe;
+    pub fn new(sh: &SphericalHarmonics3, intensity: f32) -> LightProbe;
 
     #[wasm_bindgen(method, js_name = "fromJSON")]
     pub fn from_json(this: &LightProbe, json: &JsValue) -> LightProbe;
@@ -105,7 +106,7 @@ extern "C" {
     pub type HemisphereLightProbe;
 
     #[wasm_bindgen(constructor)]
-    pub fn new(skyColor: &JsValue, groundColor: &JsValue, intensity: i32) -> HemisphereLightProbe;
+    pub fn new(skyColor: &Color, groundColor: &Color, intensity: f32) -> HemisphereLightProbe;
 
 }
 
@@ -115,7 +116,7 @@ extern "C" {
     pub type DirectionalLight;
 
     #[wasm_bindgen(constructor)]
-    pub fn new(color: &JsValue, intensity: i32) -> DirectionalLight;
+    pub fn new(color: i32, intensity: f32) -> DirectionalLight;
 
 }
 
@@ -125,7 +126,7 @@ extern "C" {
     pub type AmbientLight;
 
     #[wasm_bindgen(constructor)]
-    pub fn new(color: &JsValue, intensity: i32) -> AmbientLight;
+    pub fn new(color: i32, intensity: f32) -> AmbientLight;
 
 }
 
@@ -135,6 +136,6 @@ extern "C" {
     pub type AmbientLightProbe;
 
     #[wasm_bindgen(constructor)]
-    pub fn new(color: &JsValue, intensity: i32) -> AmbientLightProbe;
+    pub fn new(color: &Color, intensity: f32) -> AmbientLightProbe;
 
 }

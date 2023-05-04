@@ -1,6 +1,7 @@
+use js_sys::{Array, Number, Object};
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
-use crate::core::Object3D;
+use crate::{core::Object3D, Vector3};
 
 #[wasm_bindgen(module = "/node_modules/three/build/three.module.js")]
 extern "C" {
@@ -9,6 +10,15 @@ extern "C" {
 
     #[wasm_bindgen(constructor)]
     pub fn new() -> Camera;
+
+    #[wasm_bindgen(method, js_name = "getWorldDirection")]
+    pub fn get_world_direction(this: &Camera, target: &Vector3) -> Vector3;
+
+    #[wasm_bindgen(method, js_name = "updateMatrixWorld")]
+    pub fn update_matrix_world(this: &Camera, force: &JsValue);
+
+    #[wasm_bindgen(method, js_name = "updateWorldMatrix")]
+    pub fn update_world_matrix(this: &Camera, update_parents: &JsValue, update_children: &JsValue);
 
 }
 
@@ -20,7 +30,7 @@ extern "C" {
     pub fn new() -> StereoCamera;
 
     #[wasm_bindgen(method)]
-    pub fn update(this: &StereoCamera, camera: &Camera) -> StereoCamera;
+    pub fn update(this: &StereoCamera, camera: &PerspectiveCamera) -> StereoCamera;
 
 }
 
@@ -33,32 +43,37 @@ extern "C" {
     pub fn new() -> PerspectiveCamera;
 
     #[wasm_bindgen(constructor)]
-    pub fn new_with(fov: f64, aspect: f64, near: f64, far: f64) -> PerspectiveCamera;
+    pub fn new_with(
+        fov: &Number,
+        aspect: &Number,
+        near: &Number,
+        far: &Number,
+    ) -> PerspectiveCamera;
 
     #[wasm_bindgen(method, js_name = "setFocalLength")]
-    pub fn set_focal_length(this: &PerspectiveCamera, focalLength: i64);
+    pub fn set_focal_length(this: &PerspectiveCamera, focalLength: f32);
 
     #[wasm_bindgen(method, js_name = "getFocalLength")]
-    pub fn get_focal_length(this: &PerspectiveCamera) -> i64;
+    pub fn get_focal_length(this: &PerspectiveCamera) -> f32;
 
     #[wasm_bindgen(method, js_name = "getEffectiveFOV")]
-    pub fn get_effective_fov(this: &PerspectiveCamera) -> i64;
+    pub fn get_effective_fov(this: &PerspectiveCamera) -> f32;
 
     #[wasm_bindgen(method, js_name = "getFilmWidth")]
-    pub fn get_film_width(this: &PerspectiveCamera) -> i64;
+    pub fn get_film_width(this: &PerspectiveCamera) -> f32;
 
     #[wasm_bindgen(method, js_name = "getFilmHeight")]
-    pub fn get_film_height(this: &PerspectiveCamera) -> i64;
+    pub fn get_film_height(this: &PerspectiveCamera) -> f32;
 
     #[wasm_bindgen(method, js_name = "setViewOffset")]
     pub fn set_view_offset(
         this: &PerspectiveCamera,
-        full_width: &JsValue,
-        full_height: &JsValue,
-        x: &JsValue,
-        y: &JsValue,
-        width: &JsValue,
-        height: &JsValue,
+        full_width: f32,
+        full_height: f32,
+        x: f32,
+        y: f32,
+        width: f32,
+        height: f32,
     );
 
     #[wasm_bindgen(method, js_name = "clearViewOffset")]
@@ -68,7 +83,7 @@ extern "C" {
     pub fn update_projection_matrix(this: &PerspectiveCamera);
 
     #[wasm_bindgen(method, js_name = "toJSON")]
-    pub fn to_json(this: &PerspectiveCamera, meta: &JsValue) -> JsValue;
+    pub fn to_json(this: &PerspectiveCamera, meta: &Object) -> JsValue;
 
 }
 
@@ -131,6 +146,6 @@ extern "C" {
     pub type ArrayCamera;
 
     #[wasm_bindgen(constructor)]
-    pub fn from_array(array: &JsValue) -> ArrayCamera;
+    pub fn from_array(array: &Array) -> ArrayCamera;
 
 }

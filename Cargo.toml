@@ -19,4 +19,10 @@ wasm-bindgen-futures = "0.4.34"
 
 [dependencies.web-sys]
 version = "0.3.61"
-features = ["Element"]
+features = [
+    "BiquadFilterNode",
+    "Element",
+    "GainNode",
+    "MediaStream",
+    "PannerNode",
+]
