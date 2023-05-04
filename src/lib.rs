@@ -50,7 +50,8 @@ pub use math::{
     interpolants::{
         CubicInterpolant, DiscreteInterpolant, LinearInterpolant, QuaternionLinearInterpolant,
     },
-    Interpolant, Vector3,
+    Box2, Box3, Color, Cylindrical, Euler, Frustum, Interpolant, Line3, Matrix3, Matrix4, Plane,
+    Quaternion, Ray, Sphere, Spherical, SphericalHarmonics3, Triangle, Vector2, Vector3, Vector4,
 };
 pub use objects::{
     Bone, Group, InstancedMesh, Line, LineLoop, LineSegments, Mesh, Points, Skeleton, SkinnedMesh,
