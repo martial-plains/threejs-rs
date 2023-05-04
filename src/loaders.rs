@@ -146,9 +146,9 @@ extern "C" {
     pub fn load(
         this: &ObjectLoader,
         url: &JsValue,
-        on_load: &JsValue,
-        on_progress: &JsValue,
-        on_error: &JsValue,
+        on_load: &mut dyn FnMut(),
+        on_progress: &mut dyn FnMut(),
+        on_error: &mut dyn FnMut(),
     );
 
     #[wasm_bindgen(method, js_name = "loadAsync")]
