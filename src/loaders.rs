@@ -1,6 +1,9 @@
 use wasm_bindgen::{prelude::*, JsValue};
 
-use crate::textures::{CompressedTexture, CubeTexture, DataTexture, Texture};
+use crate::{
+    textures::{CompressedTexture, CubeTexture, DataTexture, Texture},
+    Object3D,
+};
 
 #[wasm_bindgen(module = "/node_modules/three/build/three.module.js")]
 extern "C" {
@@ -146,9 +149,9 @@ extern "C" {
     pub fn load(
         this: &ObjectLoader,
         url: &JsValue,
-        on_load: &mut dyn FnMut(),
-        on_progress: &mut dyn FnMut(),
-        on_error: &mut dyn FnMut(),
+        on_load: &mut dyn FnMut(JsValue),
+        on_progress: &mut dyn FnMut(JsValue),
+        on_error: &mut dyn FnMut(JsValue),
     );
 
     #[wasm_bindgen(method, js_name = "loadAsync")]
