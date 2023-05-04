@@ -15,10 +15,10 @@ extern "C" {
     pub fn to_json(this: &Light, meta: &Object) -> JsValue;
 
     #[wasm_bindgen(method, getter)]
-    pub fn color(this: &HemisphereLight) -> Color;
+    pub fn color(this: &Light) -> Color;
 
     #[wasm_bindgen(method, setter)]
-    pub fn set_color(this: &HemisphereLight, value: &Color);
+    pub fn set_color(this: &Light, value: &Color);
 
 }
 
