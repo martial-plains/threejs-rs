@@ -14,6 +14,12 @@ extern "C" {
     #[wasm_bindgen(method, js_name = "toJSON")]
     pub fn to_json(this: &Light, meta: &Object) -> JsValue;
 
+    #[wasm_bindgen(method, getter)]
+    pub fn color(this: &HemisphereLight) -> Color;
+
+    #[wasm_bindgen(method, setter)]
+    pub fn set_color(this: &HemisphereLight, value: &Color);
+
 }
 
 #[wasm_bindgen(module = "/node_modules/three/build/three.module.js")]
