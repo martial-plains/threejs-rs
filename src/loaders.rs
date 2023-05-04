@@ -137,7 +137,10 @@ extern "C" {
     pub type ObjectLoader;
 
     #[wasm_bindgen(constructor)]
-    pub fn new(manager: &JsValue) -> ObjectLoader;
+    pub fn new() -> ObjectLoader;
+
+    #[wasm_bindgen(constructor)]
+    pub fn new_with(manager: &JsValue) -> ObjectLoader;
 
     #[wasm_bindgen(method)]
     pub fn load(
