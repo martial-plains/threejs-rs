@@ -1,7 +1,7 @@
 use js_sys::{Number, Object};
 use wasm_bindgen::prelude::*;
 
-use crate::{core::Object3D, math::SphericalHarmonics3, Color};
+use crate::{core::Object3D, math::SphericalHarmonics3, Color, Vector3};
 
 #[wasm_bindgen(module = "/node_modules/three/build/three.module.js")]
 extern "C" {
@@ -81,6 +81,12 @@ extern "C" {
 
     #[wasm_bindgen(constructor)]
     pub fn new(skyColor: i32, groundColor: i32, intensity: f32) -> HemisphereLight;
+
+    #[wasm_bindgen(method, getter)]
+    pub fn position(this: &HemisphereLight) -> Vector3;
+
+    #[wasm_bindgen(method, setter)]
+    pub fn set_position(this: &HemisphereLight, value: &Vector3);
 
 }
 
